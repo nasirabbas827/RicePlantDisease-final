@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rice Leaf Disease Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .upload-area {
+            transition: all 0.3s ease;
+        }
+        .upload-area:hover {
+            background-color: rgba(34, 197, 94, 0.1);
+            border-color: #22c55e;
+            transform: scale(1.02);
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+        }
+        .animate-slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-green-50 to-emerald-100 min-h-screen">
+    <div class="container max-w-4xl mx-auto px-4 py-12">
+        <header class="text-center mb-10">
+            <h1 class="text-5xl font-bold text-green-900 mb-3 animate-slide-in">Rice Plant Disease Detection</h1>
+            <p class="text-xl text-green-700 opacity-80">Harness AI to protect your crops by analyzing rice leaf images</p>
+        </header>
+
+        <!-- Form Section -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-8 max-w-xl mx-auto animate-slide-in">
+            <form method="POST" enctype="multipart/form-data">
+                <div class="upload-area border-2 border-dashed border-green-300 rounded-xl p-8 text-center cursor-pointer bg-green-50/50">
+                    <div class="text-6xl mb-4 text-green-500">🌾</div>
+                    <p class="text-lg text-green-600 mb-4 upload-text font-medium">Click to upload or drag and drop your image</p>
+                    <label for="file-input" class="inline-block bg-green-600 text-white py-3 px-6 rounded-lg cursor-pointer hover:bg-green-700 transition shadow-md">Choose Image</label>
+                    <input type="file" id="file-input" name="image" accept="image/*" required class="hidden">
+                </div>
+                <button type="submit" class="mt-6 w-full bg-amber-500 text-gray-900 py-3 rounded-lg font-semibold text-lg hover:bg-amber-600 transition transform hover:-translate-y-1 hover:shadow-lg">Analyze Now</button>
+            </form>
+
+            {% if error %}
+            <div class="mt-6 p-4 bg-red-100 text-red-800 rounded-lg border-l-4 border-red-600 animate-slide-in">
+                {{ error }}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Result Section -->
+        {% if result %}
+        <div class="bg-white rounded-2xl shadow-xl p-8 animate-slide-in">
+            <h3 class="text-3xl font-semibold text-green-900 mb-6">Analysis Results</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-6 bg-green-50 rounded-xl border-l-4 border-green-600">
+                    <h4 class="text-xl font-medium text-green-800 mb-2">Predicted Condition</h4>
+                    <p class="text-lg text-green-700">{{ result }}</p>
+                </div>
+                <div class="image-container">
+                    <p class="text-green-700 font-medium mb-3">Uploaded Image</p>
+                    <img src="{{ img_path }}" alt="Uploaded rice leaf image" class="w-full rounded-xl shadow-md hover:shadow-xl transition">
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="text-center text-green-700 opacity-80 animate-slide-in">
+            <p class="text-lg">Upload an image to view analysis results</p>
+        </div>
+        {% endif %}
+
+        <footer class="text-center mt-12 text-green-700 opacity-80">
+            <p class="text-lg">Empowering farmers with cutting-edge AI technology</p>
+        </footer>
+    </div>
+
+    <script>
+        // Display file name when selected
+        document.getElementById('file-input').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'No file selected';
+            document.querySelector('.upload-text').textContent = fileName;
+        });
+    </script>
+</body>
+</html>
